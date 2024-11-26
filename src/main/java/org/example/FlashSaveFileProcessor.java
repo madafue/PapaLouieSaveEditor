@@ -1,14 +1,14 @@
 package org.example;
 
+import org.example.handlers.GameHandler;
+import org.example.handlers.ScooperiaGameHandler;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
-
-
-import static org.example.changeThings.*;
 import static org.example.compressionTools.*;
 
 public class FlashSaveFileProcessor {
@@ -63,8 +63,17 @@ public class FlashSaveFileProcessor {
 
     public static void printMenu() {
         Scanner scanner = new Scanner(System.in);
+        Map<Object, Object> map = (Map<Object, Object>) temporarySourceObject;
+        String gameSKU = map.get("gameSKU").toString();
+        GameHandler gameHandler = getGameHandler(gameSKU, map);
+
+        if (gameHandler == null) {
+            System.out.println("Unsupported game SKU: " + gameSKU);
+            return;
+        }
+
         while (true) {
-            System.out.println("Main Menu:");
+            System.out.println("Main Menu " + gameSKU);
             System.out.println("1. Print Data");
             System.out.println("2. Change Element");
             System.out.println("3. Save Changes");
@@ -77,8 +86,7 @@ public class FlashSaveFileProcessor {
                     printData(temporarySourceObject);
                     break;
                 case "2":
-                    changeElementMenu();
-                    break;
+                    gameHandler.displayMenu();
                 case "3":
                     saveChanges();
                     break;
@@ -93,41 +101,16 @@ public class FlashSaveFileProcessor {
         }
     }
 
-
-    public static void changeElementMenu() {
-        if (!isMap) {
-            System.out.println("No map data found. Cannot change elements.");
-            return;
-        }
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("Change Element Menu:");
-            System.out.println("1. Clicked Facebook Button");
-            System.out.println("2. Clicked Twitter Button");
-            System.out.println("3. Tips");
-            System.out.println("4. Go Back");
-            System.out.print("Select an option: ");
-            String choice = scanner.nextLine();
-
-            switch (choice) {
-                case "1":
-                    changeClickFacebook(temporarySourceObject);
-                    break;
-                case "2":
-                    changeClickTwitter(temporarySourceObject);
-                    break;
-                case "3":
-                    changeTips(temporarySourceObject);
-                case "4":
-                    return; // Go back to the main menu
-                default:
-                    System.out.println("Invalid option. Please try again.");
-                    break;
-            }
+    private static GameHandler getGameHandler(String gameSKU, Map<Object, Object> map) {
+        switch (gameSKU) {
+            case "papasscooperiahd":
+                return new ScooperiaGameHandler(map);
+            // Add cases for other games here
+            default:
+                return null;
         }
     }
+
 
     public static void saveChanges() {
         if (!(temporarySourceObject instanceof Map<?, ?>)) {
