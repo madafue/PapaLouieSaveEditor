@@ -1,7 +1,8 @@
 package org.example;
 
+import org.example.handlers.BakeriaGameHandler;
 import org.example.handlers.GameHandler;
-import org.example.handlers.ScooperiaGameHandler;
+import org.example.handlers.*;
 
 import java.io.*;
 import java.nio.file.*;
@@ -105,7 +106,29 @@ public class FlashSaveFileProcessor {
         switch (gameSKU) {
             case "papasscooperiahd":
                 return new ScooperiaGameHandler(map);
-            // Add cases for other games here
+            case "papasbakeria":
+                return new BakeriaGameHandler(map);
+            case "papascheeseria":
+                return new CheeseriaGameHandler(map);
+            case "papascupcakeria":
+                return new CupcakeriaGameHandler(map);
+            case "papasdonuteria":
+                return new DonuteriaGameHandler(map);
+            case "papasfreezeria_":
+                return new FreezeriaGameHandler(map);
+            case "papashotdoggeria":
+                return new HotDoggeriaGameHandler(map);
+            case "papaspancakeria_":
+                return new PancakeriaGameHandler(map);
+            case "papaspastaria":
+                return new PastariaGameHandler(map);
+            case "papassushiria":
+                return new SushiriaGameHandler(map);
+            case "papastaqueria_":
+                return new TacoMiaGameHandler(map);
+            case "papaswingeria_":
+                return new WingeriaGameHandler(map);
+
             default:
                 return null;
         }

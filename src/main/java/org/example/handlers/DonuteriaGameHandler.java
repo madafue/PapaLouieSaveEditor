@@ -3,10 +3,10 @@ package org.example.handlers;
 import java.util.Map;
 import java.util.Scanner;
 
-public class BurgeriaGameHandler implements GameHandler {
+public class DonuteriaGameHandler implements GameHandler {
     private final Map<Object, Object> gameData;
 
-    public BurgeriaGameHandler(Map<Object, Object> gameData) {
+    public DonuteriaGameHandler(Map<Object, Object> gameData) {
         this.gameData = gameData;
     }
 
@@ -14,7 +14,7 @@ public class BurgeriaGameHandler implements GameHandler {
     public void displayMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("Change Element Menu (Papa's Burgeria):");
+            System.out.println("Change Element Menu (Papa's Donuteria):");
             System.out.println("1. Option 1");
             System.out.println("2. Option 2");
             System.out.println("3. Go Back");
