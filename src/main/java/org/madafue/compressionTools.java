@@ -1,4 +1,4 @@
-package org.example;
+package org.madafue;
 
 import flex.messaging.io.SerializationContext;
 import flex.messaging.io.amf.Amf3Input;

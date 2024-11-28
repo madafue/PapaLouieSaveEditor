@@ -1,15 +1,12 @@
-package org.example;
+package org.madafue;
 
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-public class PapaFileChooser extends Application {
+public class PapaFileChooser {
 
     private static final String PREF_KEY = "lastBackupDirectory";
     private static File selectedFile;
@@ -18,8 +15,7 @@ public class PapaFileChooser extends Application {
         return selectedFile;
     }
 
-    @Override
-    public void start(Stage primaryStage) throws BackingStoreException {
+    public static File promptForFile(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Backup File");
         fileChooser.getExtensionFilters().add(
@@ -33,21 +29,21 @@ public class PapaFileChooser extends Application {
 
         selectedFile = fileChooser.showOpenDialog(primaryStage);
 
-        if (selectedFile == null) {
-            System.out.println("No file selected. Exiting...");
-        } else {
+        if (selectedFile != null) {
             System.out.println("File selected: " + selectedFile.getAbsolutePath());
             // Update the last directory in preferences
             String selectedDirectory = selectedFile.getParent();
             prefs.put(PREF_KEY, selectedDirectory);
-            prefs.flush();
+            try {
+                prefs.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No file selected.");
         }
 
-        Platform.exit();
-    }
 
-    public static File promptForFile() {
-        launch();
-        return selectedFile;
+        return selectedFile;  // Will return null immediately if the user hasn't selected a file yet
     }
 }
