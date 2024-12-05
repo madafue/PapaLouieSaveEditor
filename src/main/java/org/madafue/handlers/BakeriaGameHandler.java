@@ -18,8 +18,9 @@ public class BakeriaGameHandler implements GameHandler {
 
     @Override
     public void displayMenu(VBox layout) {
-        // Facebook Button
-        Label fbLabel = new Label("Change 'Clicked Facebook' State:");
+        // Facebook State
+        String fbState = String.valueOf(gameData.getOrDefault("clickfacebook", "Unknown"));
+        Label fbLabel = new Label("Change 'Clicked Facebook' State (Current: " + fbState + "):");
         TextField fbInput = new TextField();
         fbInput.setPromptText("Enter true/false");
         Button fbButton = new Button("Update Facebook");
@@ -30,11 +31,13 @@ public class BakeriaGameHandler implements GameHandler {
                 showAlert("Invalid Input", "Please enter 'true' or 'false'.");
             } else {
                 changeThings.changeClickFacebook(gameData, input);
+                fbLabel.setText("Change 'Clicked Facebook' State (Current: " + input + "):");
             }
         });
 
-        // Twitter Button
-        Label twitterLabel = new Label("Change 'Clicked Twitter' State:");
+        // Twitter State
+        String twitterState = String.valueOf(gameData.getOrDefault("clicktwitter", "Unknown"));
+        Label twitterLabel = new Label("Change 'Clicked Twitter' State (Current: " + twitterState + "):");
         TextField twitterInput = new TextField();
         twitterInput.setPromptText("Enter true/false");
         Button twitterButton = new Button("Update Twitter");
@@ -45,11 +48,13 @@ public class BakeriaGameHandler implements GameHandler {
                 showAlert("Invalid Input", "Please enter 'true' or 'false'.");
             } else {
                 changeThings.changeClickTwitter(gameData, input);
+                twitterLabel.setText("Change 'Clicked Twitter' State (Current: " + input + "):");
             }
         });
 
-        // Tips Button
-        Label tipsLabel = new Label("Change 'Tips' Value:");
+        // Tips Value
+        String tipsValue = String.valueOf(gameData.getOrDefault("tips", "Unknown"));
+        Label tipsLabel = new Label("Change 'Tips' Value (Current: " + tipsValue + "):");
         TextField tipsInput = new TextField();
         tipsInput.setPromptText("Enter a numeric value (at least 3 digits)");
         Button tipsButton = new Button("Update Tips");
@@ -59,6 +64,7 @@ public class BakeriaGameHandler implements GameHandler {
                 int input = Integer.parseInt(tipsInput.getText().trim());
                 if (String.valueOf(input).length() >= 3) {
                     changeThings.changeTips(gameData, input);
+                    tipsLabel.setText("Change 'Tips' Value (Current: " + input + "):");
                 } else {
                     showAlert("Invalid Input", "The value must have at least 3 digits.");
                 }
@@ -74,6 +80,7 @@ public class BakeriaGameHandler implements GameHandler {
                 tipsLabel, tipsInput, tipsButton
         );
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

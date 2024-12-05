@@ -59,4 +59,53 @@ public class changeThings {
             System.out.println("'tips' not found in the data.");
         }
     }
+
+    public static void changePlayerName(Map<Object, Object> workingCopy, String newName) {
+        if (workingCopy == null) {
+            System.out.println("Invalid data structure. Cannot modify.");
+            return;
+        }
+
+        if (workingCopy.containsKey("playername")) {
+
+            workingCopy.put("playername", newName);
+            System.out.println("'playername' updated to: " + newName);
+
+        } else {
+            System.out.println("'playername' not found in the data.");
+        }
+    }
+
+    public static void changeDay(Map<Object, Object> workingCopy, int newValue) {
+        if(checkNull(workingCopy)) {
+            if (workingCopy.containsKey("day")) {
+                workingCopy.put("day", newValue);
+                System.out.println("'day' updated to: " + newValue);
+
+            } else {
+                System.out.println("'day' not found in the data.");
+            }
+        }
+
+    }
+
+    private static boolean checkNull(Map<Object, Object> workingCopy){
+        if (workingCopy == null) {
+            System.out.println("Invalid data structure. Cannot modify.");
+            return false;
+        }
+        return true;
+    }
+
+    public static void changeRank(Map<Object, Object> workingCopy, int newValue) {
+        if(checkNull(workingCopy)) {
+            if (workingCopy.containsKey("rank")) {
+                workingCopy.put("rank", newValue);
+                System.out.println("'rank' updated to: " + newValue);
+
+            } else {
+                System.out.println("'rank' not found in the data.");
+            }
+        }
+    }
 }

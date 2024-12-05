@@ -131,11 +131,33 @@ public class JavaFXApp extends Application {
 
     private void printData() {
         if (temporarySourceObject instanceof Map<?, ?> map) {
-            StringBuilder data = new StringBuilder("Current Data:\n");
+            VBox layout = new VBox(10);
+            layout.setPadding(new Insets(20));
+            layout.setAlignment(Pos.TOP_LEFT);
+
+            Label title = new Label("Current Data:");
+            title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+            StringBuilder data = new StringBuilder();
             for (Map.Entry<?, ?> entry : map.entrySet()) {
                 data.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
             }
-            showAlert(Alert.AlertType.INFORMATION, "Data", data.toString());
+
+            TextArea dataDisplay = new TextArea(data.toString());
+            dataDisplay.setWrapText(true);
+            dataDisplay.setEditable(false);
+
+            layout.getChildren().addAll(title, dataDisplay);
+
+            ScrollPane scrollPane = new ScrollPane(layout);
+            scrollPane.setFitToWidth(true);
+
+            Scene scene = new Scene(scrollPane, 400, 300);
+
+            Stage dataStage = new Stage();
+            dataStage.setTitle("Print Data");
+            dataStage.setScene(scene);
+            dataStage.show();
         } else {
             showAlert(Alert.AlertType.ERROR, "Error", "Invalid data format.");
         }
@@ -299,20 +321,24 @@ public class JavaFXApp extends Application {
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
-        layout.setAlignment(Pos.CENTER);
+        layout.setAlignment(Pos.TOP_LEFT);
 
         Label title = new Label("Change Element Menu");
         title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         Label subtitle = new Label("Edit your save data below:");
         subtitle.setStyle("-fx-font-size: 14px;");
 
+        layout.getChildren().addAll(title, subtitle);
         gameHandler.displayMenu(layout);
 
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> changeElementStage.close());
         layout.getChildren().add(backButton);
 
-        Scene scene = new Scene(layout, 400, 300);
+        ScrollPane scrollPane = new ScrollPane(layout);
+        scrollPane.setFitToWidth(true);
+
+        Scene scene = new Scene(scrollPane, 400, 400);
         changeElementStage.setScene(scene);
         changeElementStage.setTitle("Edit Save Data");
         changeElementStage.show();
